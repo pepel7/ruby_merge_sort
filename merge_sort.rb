@@ -1,31 +1,20 @@
 def merge_sort(arr)
   return arr if arr.length == 1
 
-  left_side = arr[0..(arr.length / 2 - 1)]
-  left_side = merge_sort(left_side)
+  middle = arr.length / 2
+  left = merge_sort(arr[0...middle])
+  right = merge_sort(arr[middle..])
 
-  right_side = arr[(arr.length / 2)..]
-  right_side = merge_sort(right_side)
+  merged_arr = []
 
-  sorted_arr = []
-
-  until sorted_arr.length == arr.length
-    left, right = left_side[0], right_side[0]
-  
-    sorted_arr << right_side if left.nil?
-    sorted_arr << left_side if right.nil?
-    sorted_arr.flatten!
-    next if left.nil? || right.nil?
-
-    sorted_arr << (left < right ? left : right)
-    left_side.shift if left < right
-    right_side.shift if right < left
+  until left.empty? || right.empty?
+    merged_arr << (left[0] <= right[0] ? left.shift : right.shift)
   end
 
-  sorted_arr
+  merged_arr + left + right
 end
 
-arr = [3, 2, 1, 13, 8, 5, 0, 1]
+arr = [3, 2, 1, 13, 8, 5, 0]
 
 p merge_sort(arr)
 
